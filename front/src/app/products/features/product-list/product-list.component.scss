@@ -1,0 +1,30 @@
+:host {
+    display: block;
+    height: 100%;
+    overflow: auto;
+}
+
+.text-green-600 {
+    color: #16a34a; // Tailwind green-600
+}
+
+.text-yellow-600 {
+    color: #ca8a04; // Tailwind yellow-600
+}
+
+.text-red-600 {
+    color: #dc2626; // Tailwind red-600
+}
+
+.pi-star {
+    font-size: 1rem;
+    margin-right: 0.2rem;
+}
+
+.text-yellow-500 {
+    color: #f59e0b; // Tailwind yellow-500
+}
+
+.text-gray-300 {
+    color: #d1d5db; // Tailwind gray-300
+}

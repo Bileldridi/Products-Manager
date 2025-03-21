@@ -1,0 +1,98 @@
+<p-toolbar [style]="{ height: '100px' }">
+  <div class="p-toolbar-group-start">
+    <img src="assets/icons/icon-72x72.png" alt="logo" />
+  </div>
+  <div class="p-toolbar-group-center">
+    {{ title }}
+  </div>
+  <div class="p-toolbar-group-end">
+    <div class="relative group cursor-pointer" (click)="isCartVisible = true">
+      <i
+        class="pi pi-shopping-cart text-2xl transition-transform duration-200 group-hover:scale-110"
+      ></i>
+
+      @if (cartService.items().length > 0) {
+      <span
+        class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full"
+      >
+        {{ cartService.items().length }}
+      </span>
+      }
+    </div>
+  </div>
+</p-toolbar>
+<p-splitter [panelSizes]="[20, 80]" [style]="{ height: 'calc(100vh - 100px)' }">
+  <ng-template pTemplate>
+    <div class="w-full">
+      <app-panel-menu />
+    </div>
+  </ng-template>
+  <ng-template pTemplate>
+    <div class="w-full app-content">
+      <router-outlet></router-outlet>
+    </div>
+  </ng-template>
+</p-splitter>
+<p-dialog
+  [(visible)]="isCartVisible"
+  [style]="{ width: '50vw' }"
+  header="Panier"
+>
+  @if (cartService.items().length > 0) {
+  <div>
+    @for (item of cartService.items(); track item) {
+    <div class="mb-4 border-b pb-2">
+      <div class="flex justify-between items-center">
+        <div>
+          <div class="text-lg font-medium">{{ item.product.name }}</div>
+          <div class="text-sm text-gray-600">
+            {{ item.product.description }}
+          </div>
+          <div class="text-sm">Prix: {{ formatPrice(item.product.price) }}</div>
+          <div class="text-sm flex items-center gap-2 mt-1">
+            Quantité:
+
+            <p-button
+              icon="pi pi-minus"
+              size="small"
+              [rounded]="true"
+              [text]="true"
+              severity="danger"
+              (onClick)="decreaseQuantity(item.product)"
+              [disabled]="item.quantity === 1"
+            ></p-button>
+
+            <span class="font-medium">{{ item.quantity }}</span>
+
+            <p-button
+              icon="pi pi-plus"
+              severity="success"
+              [rounded]="true"
+              [text]="true"
+              size="small"
+              (onClick)="increaseQuantity(item.product)"
+            ></p-button>
+          </div>
+        </div>
+        <p-button
+          icon="pi pi-trash"
+          severity="danger"
+          (onClick)="removeFromCart(item.product)"
+          class="ml-4"
+        ></p-button>
+      </div>
+    </div>
+    }
+
+    <div class="text-right font-bold mt-4">
+      Total: {{ formatPrice(getCartTotal()) }}
+    </div>
+  </div>
+  } @else {
+  <div class="text-center text-gray-500 mt-4">Votre panier est vide.</div>
+  }
+
+  <ng-template #emptyCart>
+    <div class="text-center text-gray-500">Votre panier est vide.</div>
+  </ng-template>
+</p-dialog>
