@@ -22,7 +22,7 @@ import { CardModule } from 'primeng/card';
   styleUrl: './contact.component.css'
 })
 export class ContactComponent {
-  public message: string = '';
+  
   constructor(private messageService: MessageService) {}
 
   public onSubmit(form: NgForm): void {
